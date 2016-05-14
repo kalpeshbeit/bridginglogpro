@@ -1,0 +1,609 @@
+<!doctype html>
+
+<head>
+
+    <meta charset="utf-8">
+
+    <link rel="stylesheet" href="lib/onsen/css/onsenui.css">
+    <link rel="stylesheet" href="lib/onsen/css/onsen-css-components.css">
+    <link rel="stylesheet" href="lib/onsen/css/checkbox_list.css">
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
+
+    <link rel="stylesheet" href="css/app.css?ver=1.0">
+
+    <link href="lib/mobiscroll/css/mobiscroll.frame.css" rel="stylesheet" type="text/css" />
+
+    <link href="lib/mobiscroll/css/mobiscroll.frame.android.css" rel="stylesheet" type="text/css" />
+
+    <link href="lib/mobiscroll/css/mobiscroll.frame.android-holo.css" rel="stylesheet" type="text/css" />
+
+    <link href="lib/mobiscroll/css/mobiscroll.frame.ios-classic.css" rel="stylesheet" type="text/css" />
+
+    <link href="lib/mobiscroll/css/mobiscroll.frame.ios.css" rel="stylesheet" type="text/css" />
+
+    <link href="lib/mobiscroll/css/mobiscroll.scroller.css" rel="stylesheet" type="text/css" />
+
+    <link href="lib/mobiscroll/css/mobiscroll.scroller.android.css" rel="stylesheet" type="text/css" />
+
+    <link href="lib/mobiscroll/css/mobiscroll.scroller.android-holo.css" rel="stylesheet" type="text/css" />
+
+    <link href="lib/mobiscroll/css/mobiscroll.scroller.ios-classic.css" rel="stylesheet" type="text/css" />
+
+    <link href="lib/mobiscroll/css/mobiscroll.scroller.ios.css" rel="stylesheet" type="text/css" />
+
+    <link href="lib/mobiscroll/css/mobiscroll.android-holo-light.css" rel="stylesheet" type="text/css" />
+
+    <link href='https://fonts.googleapis.com/css?family=Montserrat' rel='stylesheet' type='text/css'>
+    <script type="text/javascript" src="cordova.js"></script>
+    <script src="lib/angular/angular.js"></script>
+
+    <script src="lib/onsen/js/onsenui.js"></script>
+
+    <script src="lib/jquery-1.11.3.min.js"></script>
+
+    <script src="lib/jquery.mask.min.js"></script>
+
+    <script src="lib/jquery.form-validator.min.js"></script>
+
+    <script src="lib/mobiscroll/js/mobiscroll.core.js"></script>
+
+    <script src="lib/mobiscroll/js/mobiscroll.frame.js"></script>
+
+    <script src="lib/mobiscroll/js/mobiscroll.scroller.js"></script>
+
+    <script src="lib/mobiscroll/js/mobiscroll.util.datetime.js"></script>
+
+    <script src="lib/mobiscroll/js/mobiscroll.datetimebase.js"></script>
+
+    <script src="lib/mobiscroll/js/mobiscroll.datetime.js"></script>
+
+    <script src="lib/mobiscroll/js/mobiscroll.frame.android-holo.js"></script>
+
+    <script src="lib/jquery.translate.js"></script>
+
+    <script src="js/config.js?ver=1.0"></script>
+
+    <script src="js/old-openfb.js?ver=1.0"></script>
+
+    <script src="http://cdnjs.cloudflare.com/ajax/libs/raphael/2.1.0/raphael-min.js"></script>
+    <script src="http://cdn.oesmith.co.uk/morris-0.4.1.min.js"></script>
+    <script src="js/tpl.js?ver=1.0"></script>
+
+    <script src="js/app.js?ver=1.0"></script>
+
+    <script src="js/services.js?ver=1.0"></script>
+
+
+</head>
+
+<body>
+
+
+
+    <div ons-loading-placeholder="start.html" class="loading-screen">
+
+        <div class="inner">
+
+            <p><i class="fa fa-spinner fa-spin"></i> Loading BoxAccounting...</p>
+
+        </div>
+
+    </div>
+
+<ons-template id="start.html">
+
+</ons-template>
+
+<ons-modal var="loader">
+
+    <ons-icon icon="fa-circle-o-notch" spin="true"></ons-icon>
+
+    <br>
+
+    <br> <span class="trn" data-trn-key="please_wait">Please wait</span>.
+
+</ons-modal>
+
+
+
+<ons-modal var="loaderSearch">
+
+    <ons-icon icon="fa-circle-o-notch" spin="true"></ons-icon>
+
+    <br>
+
+    <br> <span class="trn" data-trn-key="searching_for_restaurant">Searching for restaurant</span>
+
+</ons-modal>
+
+
+
+<ons-modal var="loaderLang">
+
+    <ons-icon icon="fa-circle-o-notch" spin="true"></ons-icon>
+
+    <br>
+
+    <br> loading languages
+
+</ons-modal>
+
+
+
+<ons-sliding-menu id="mainmenuhome" main-page="events.html" menu-page="menu.html" side="left" var="menu" close-on-tap type="overlay" >
+
+</ons-sliding-menu>
+
+
+<script type="text/ons-template" id="menu.html">
+
+    <ons-list-item onclick="menu.setMainPage('events.html', {closeMenu: true})" class="bottom-menu-item">
+
+    <ons-icon icon="fa fa-building"></ons-icon>
+
+    <span class="trn" data-trn-key="browse_resto">Events</span>
+
+    </ons-list-item>
+
+	
+
+    <ons-list-item onclick="showMySchedule();" class="bottom-menu-item">
+
+    <ons-icon icon="fa fa-tasks"></ons-icon>
+
+    <span class="trn" data-trn-key="orders">My Schedule</span>
+
+    </ons-list-item>
+
+
+
+   
+
+    <ons-list-item onclick="menu.setMainPage('prelogin.html', {closeMenu: true})" style="display:block;" class="bottom-menu-item login-menu">
+
+    <ons-icon icon="ion-log-in"></ons-icon>
+
+    <span class="trn" data-trn-key="login">Login</span>
+
+    </ons-list-item>
+
+    <ons-list-item onclick="logout();" class="bottom-menu-item logout-menu ons-list-item-inner" style="display:block;">
+
+    <ons-icon icon="ion-log-out"></ons-icon>
+
+    <span class="trn" data-trn-key="logout">Logout</span>
+
+    </ons-list-item>
+
+    <ons-list-item  class="bottom-menu-item t-and-c">
+
+    <span class="trn ta-left" onclick="termspage()" >Terms & Agreement</span>
+    <span class="trn pp-right" onclick="privcypage()" >Privacy Policy</span>
+
+    </ons-list-item>
+
+
+    </ons-list>
+
+    </ons-page>
+
+</script>
+
+
+
+
+
+
+
+<script type="text/ons-template" id="myschedule.html">
+     <ons-navigator title="Navigator" var="sNavigator">
+    <ons-page id="page_myschedule">
+    <ons-toolbar>
+    <div class="left">
+    <ons-toolbar-button onclick="menu.toggleMenu();">
+    <ons-icon icon="fa fa-bars"></ons-icon>
+    </ons-toolbar-button>
+    </div>
+    <div class="center white"  >
+    <span id="search-text"> My Schedule  </span>
+    </div>
+
+    <div class="right">
+    </div>
+    </ons-toolbar>
+    <ons-list  id="schedule-list">
+    </ons-list>
+    </ons-page>
+    </ons-navigator>
+</script>
+
+<script type="text/ons-template" id="events.html">
+    <ons-navigator title="Navigator" var="sNavigator">
+    <ons-page id="page_events">
+    <ons-toolbar>
+    <div class="left">
+    <ons-toolbar-button onclick="menu.toggleMenu();">
+    <ons-icon icon="fa fa-bars"></ons-icon>
+    </ons-toolbar-button>
+    </div>
+    <div class="center white"  >
+    <span id="search-text"> Events </span>
+    </div>
+
+    <div class="right">
+    </div>
+    </ons-toolbar>
+    <ons-list  id="event-list">
+    </ons-list>
+    </ons-page>
+    </ons-navigator>
+</script>
+
+
+
+
+
+<script type="text/ons-template" id="event_detail.html">
+    <ons-page id="page_event_detail">
+    <ons-toolbar>
+    <div class="left">
+    <ons-toolbar-button onclick="menu.toggleMenu();">
+    <ons-icon icon="fa fa-bars"></ons-icon>
+    </ons-toolbar-button>
+    </div>
+    <div class="center white"  >
+    <span id="event-title-text"> Event Detail </span>
+    </div>
+
+    <div class="right">
+    </div>
+    </ons-toolbar>
+        <div class="card"  id="event_main_container">
+          <div class="card-name" id="event_main_title" ></div>
+          <div class="card-desc" id="event_main_location"></div>
+        </div>
+        </div>
+        <ons-list >
+          <ons-list-item  class="eventDetailHead" id="eventDetailHead">
+              	
+          </ons-list-item>
+        
+    <ons-list-header> People </ons-list-header>
+	
+	<ons-list id="event_user_list" >
+	</ons-list >
+		
+	
+   
+
+    </ons-page>
+</script>
+
+
+
+<script type="text/ons-template" id="dialogAddressBook.html">
+
+    <ons-dialog var="dialogAddressBook" style="width:90%;height:250px;" cancelable  >
+
+    <ons-page id="page-dialog-addressbook" >
+
+    <ons-toolbar>
+
+    <div class="center white trn" data-trn-key="address_book">Address Book</div>
+
+    </ons-toolbar>
+
+
+    <ons-scroller id="addressbook-popup">
+
+    </ons-scroller>
+
+
+
+    </ons-page>
+
+    </ons-dialog>
+
+</script>
+
+
+
+<script type="text/ons-template" id="changepassword.html">
+
+    <ons-navigator title="Navigator" var="sNavigator">
+
+    <ons-page id="page-changepassword">
+
+    <ons-toolbar>
+
+
+
+    <div class="left">
+
+    <ons-toolbar-button onclick="showProfile();">
+
+    <ons-icon icon="fa-chevron-left"></ons-icon>
+
+    </ons-toolbar-button>
+
+    </div>
+
+
+
+    <div class="center white"><span id="search-text" class="trn" data-trn-key="profile">Change Password</span></div>
+
+    </ons-toolbar>
+
+
+
+    <form id="frm-changepassword" class="frm-changepassword" method="post">
+
+    <div class="wrapper">
+
+    <div class="field-wrapper">
+
+    <input type="password" name="password"  class="password text-input text-input--underbar"
+
+    placeholder="Password" value="" >
+
+    </div>
+
+
+    <div class="field-wrapper">
+
+    <input type="password" name="password_confirm"  class="password text-input text-input--underbar"
+
+    placeholder="Confirm Password" value="" >
+
+    </div>
+
+
+
+    </div>
+
+
+
+    <button class="trn button green-btn button--large" onclick="changepassword();" data-trn-key="save">
+
+    Save
+
+
+
+    </button>
+
+    </form>
+
+
+
+    </ons-page>
+
+    </ons-navigator>
+
+</script>
+
+
+
+<script type="text/ons-template" id="profile.html">
+
+    <ons-navigator title="Navigator" var="sNavigator">
+
+    <ons-page id="page-profile">
+    <ons-toolbar>
+    <div class="left">
+    <ons-toolbar-button onclick="menu.toggleMenu();">
+    <ons-icon icon="fa fa-bars"></ons-icon>
+    </ons-toolbar-button>
+    </div>
+    <div class="center white"><span id="search-text" class="trn" data-trn-key="profile">Profile</span></div>
+
+    </ons-toolbar>
+
+
+
+    <form id="frm-profile" class="frm-profile" method="post">
+
+    <div class="wrapper">
+
+    <div class="field-wrapper">
+
+    <input type="text" name="first_name"  class="first_name text-input text-input--underbar has_validation"
+
+    placeholder="First Name" value="" data-validation="required" data-validation-error-msg="this field is mandatory!" >
+
+    </div>
+
+
+
+    <div class="field-wrapper">
+
+    <input type="text" name="last_name"  class="last_name text-input text-input--underbar has_validation"
+
+    placeholder="Last Name" value="" data-validation="required" data-validation-error-msg="this field is mandatory!" >
+
+    </div>
+
+
+
+    <div class="field-wrapper">
+
+    <input type="text" name="email"  class="email_profile text-input text-input--underbar has_validation"
+
+    placeholder="Email address" value="" disabled data-validation="required" data-validation-error-msg="this field is mandatory!" >
+
+    </div>
+
+    <br>
+
+    <div class="field-wrapper"  onclick="menu.setMainPage('changepassword.html');" style="padding: 6px;">
+
+    Change password
+
+    <i class="fa fa-chevron-right btn-right-pass"></i>
+
+    </div>
+
+
+    </div>
+    <br> <br>
+
+
+    <button class="trn button green-btn button--large" onclick="saveProfile();" data-trn-key="save">
+
+    Save
+
+
+
+    </button>
+
+    </form>
+
+
+
+    </ons-page>
+
+    </ons-navigator>
+
+</script>
+
+
+
+<script type="text/ons-template" id="prelogin.html">
+
+    <ons-navigator title="Navigator" var="sNavigator">
+
+    <ons-page id="page-prelogin">
+
+    <ons-toolbar>
+
+    <div class="left"><ons-back-button></ons-back-button></div>
+
+    <div class="center white"><span id="search-text" class="trn" data-trn-key="login">Log in</span></div>
+
+    </ons-toolbar>
+
+    <form id="frm-login" class="frm-login" method="post">
+
+    <input type="hidden" name="next_steps" class="next_steps">
+
+    <div class="wrapper">
+
+    <div class="login-new">
+
+    <div class="field-wrapper">
+    <i class="login-icn fa fa-user"></i>
+    <input type="text" name="u_email"  class="email text-input text-input--underbar has_validation login-input"
+
+    placeholder="Email address" value="" data-validation="required" data-validation-error-msg="this field is mandatory!" >
+
+    </div>
+
+    <div class="field-wrapper">
+    <i class="login-icn fa fa-lock"></i>
+    <input type="password" name="u_password"  class="password text-input text-input--underbar has_validation login-input"
+
+    placeholder="Password" value="" data-validation="required" data-validation-error-msg="this field is mandatory!">
+
+    </div>
+    <div class="right">
+
+    <button class="trn button button--quiet green" onclick="showForgotPass();" data-trn-key="forgot_your_pass">
+
+    Forgot your password?
+
+    </button>
+
+    </div>
+
+    </div>
+
+    </div>
+
+    <button class="button green-btn button--large trn" onclick="login();" data-trn-key="login">
+
+    SIGN IN
+
+    </button>
+
+    </form>
+
+    </ons-page>
+
+    </ons-navigator>
+</script>
+
+
+<script type="text/ons-template" id="forgotPassword.html">
+
+    <ons-dialog var="dialogForgotPass" style="width:90%;height:250px;" cancelable  >
+
+
+
+    <ons-page id="page-forgotpass" >
+
+    <ons-toolbar>
+
+    <div class="center white trn" data-trn-key="forgot_pass">Forgot Password</div>
+
+    </ons-toolbar>
+
+
+
+    <form id="frm-forgotpass" class="frm-forgotpass" method="post">
+
+    <div class="wrapper">
+
+
+
+    <p class="center small-font-dim trn" data-trn-key="forgot_pass_message">
+
+    Enter your email address you registered<br/>with and we will send you
+
+    instruction <br/>on how to reset your password
+
+    </p>
+
+
+
+    <div class="field-wrapper">
+
+    <input type="text" name="email"  class="email text-input text-input--underbar has_validation"
+
+    placeholder="Email address" value="" data-validation="required" data-validation-error-msg="this field is mandatory!" >
+
+    </div>
+
+    </div>
+
+
+
+    <div class="wrapper center">
+
+    <button class="trn button green-btn" onclick="forgotPassword();" data-trn-key="reset_password">
+
+    Reset Password
+
+    </button>
+
+    </div>
+
+    </form>
+
+
+
+    </ons-page>
+
+    </ons-dialog>
+
+</script>
+
+
+<script type="text/html" id="buttonTemplate">
+    <input type="radio" name="_NAME_" class="_NAME_ checkboxInput checkboxInput1 del-pic-input" onchange="console.log(this.checked);
+    console.log('test check box');" value="_VALUE_" >
+    <label class="radio-button lbl-mrg">
+        <p class="description item-name checkboxLabelColor _VALUE_" >_LABEL_</p>
+    </label>
+</script>
+
+</body>
